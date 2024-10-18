@@ -12,17 +12,17 @@ export default [
 	pluginJs.configs.recommended,
 	...tseslint.configs.recommended,
 	{
-		ignores: ["node_modules"],
 		rules: {
 			"@typescript-eslint/no-unused-vars": [
 				"warn",
 				{
 					argsIgnorePattern: "^_",
-					varsIgnorePattern: "^\\$\\$(Props|Events|Slots|Generic)$",
+					varsIgnorePattern: "^\\$\\$(Props|Events|Slots|Generic)$", // Svelte
 				},
 			],
 		},
 	},
+
 	// Svelte
 	...eslintPluginSvelte.configs["flat/prettier"],
 	{
@@ -34,4 +34,7 @@ export default [
 			},
 		},
 	},
+
+	// Ignore
+	{ ignores: ["node_modules", "dist"] },
 ]
