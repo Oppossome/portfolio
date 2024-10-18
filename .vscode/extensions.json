@@ -4,6 +4,7 @@
 		"esbenp.prettier-vscode",
 		"dbaeumer.vscode-eslint",
 		"bradlc.vscode-tailwindcss",
-		"Selemondev.vscode-shadcn-svelte"
+		"Selemondev.vscode-shadcn-svelte",
+		"csstools.postcss"
 	]
 }

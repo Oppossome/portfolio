@@ -1,40 +1,41 @@
+import eslint from "@eslint/js"
+import prettier from "eslint-config-prettier"
+import svelte from "eslint-plugin-svelte"
 import globals from "globals"
-import pluginJs from "@eslint/js"
 import tseslint from "typescript-eslint"
-import eslintPluginSvelte from "eslint-plugin-svelte"
-import tsParser from "@typescript-eslint/parser"
-import svelteParser from "svelte-eslint-parser"
 
-export default [
-	// General
-	{ files: ["**/*.{js,mjs,cjs,ts}"] },
-	{ languageOptions: { globals: globals.browser } },
-	pluginJs.configs.recommended,
+export default tseslint.config(
+	eslint.configs.recommended,
 	...tseslint.configs.recommended,
+	...svelte.configs["flat/recommended"],
+	prettier,
+	...svelte.configs["flat/prettier"],
 	{
+		languageOptions: {
+			globals: {
+				...globals.browser,
+				...globals.node,
+			},
+		},
+	},
+	{
+		files: ["**/*.svelte"],
+		languageOptions: {
+			parserOptions: {
+				parser: tseslint.parser,
+			},
+		},
 		rules: {
 			"@typescript-eslint/no-unused-vars": [
 				"warn",
 				{
 					argsIgnorePattern: "^_",
-					varsIgnorePattern: "^\\$\\$(Props|Events|Slots|Generic)$", // Svelte
+					varsIgnorePattern: "^\\$\\$(Props|Events|Slots|Generic)$",
 				},
 			],
 		},
 	},
-
-	// Svelte
-	...eslintPluginSvelte.configs["flat/prettier"],
 	{
-		files: ["**/*.svelte", "*.svelte"],
-		languageOptions: {
-			parser: svelteParser,
-			parserOptions: {
-				parser: tsParser,
-			},
-		},
+		ignores: ["build/", ".svelte-kit/", "dist/"],
 	},
-
-	// Ignore
-	{ ignores: ["node_modules", "dist"] },
-]
+)
