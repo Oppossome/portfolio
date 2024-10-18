@@ -10,6 +10,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install
       - name: Svelte Check
         run: pnpm run check
       - name: ESLint, Prettier
