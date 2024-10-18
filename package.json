@@ -10,8 +10,8 @@
 		"check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build",
-		"lint": "eslint & prettier --check",
-		"lint:fix": "eslint --fix & prettier --write ."
+		"lint": "eslint && prettier --check .",
+		"lint:fix": "eslint --fix && prettier --write ."
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^1.9.0",
