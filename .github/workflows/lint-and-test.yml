@@ -8,8 +8,8 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
       - name: Install Dependencies
         run: pnpm install
       - name: Svelte Check
