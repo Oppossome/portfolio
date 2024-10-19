@@ -1,4 +1,6 @@
 import type { Preview } from "@storybook/svelte"
+import { withThemeByClassName } from "@storybook/addon-themes"
+import "../src/app.css"
 
 const preview: Preview = {
 	parameters: {
@@ -9,6 +11,18 @@ const preview: Preview = {
 			},
 		},
 	},
+	// Enable theming
+	decorators: [
+		withThemeByClassName({
+			themes: {
+				light: "",
+				dark: "dark",
+			},
+			defaultTheme: "light",
+		}),
+	],
+	// Enable automatic documentation generation
+	tags: ["autodocs"],
 }
 
 export default preview
