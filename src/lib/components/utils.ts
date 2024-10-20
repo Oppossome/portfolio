@@ -1,3 +1,6 @@
+/**
+ * Utility functions provided by shadcn-svelte
+ */
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { cubicOut } from "svelte/easing"
@@ -21,11 +24,7 @@ export const flyAndScale = (
 	const style = getComputedStyle(node)
 	const transform = style.transform === "none" ? "" : style.transform
 
-	const scaleConversion = (
-		valueA: number,
-		scaleA: [number, number],
-		scaleB: [number, number],
-	) => {
+	const scaleConversion = (valueA: number, scaleA: [number, number], scaleB: [number, number]) => {
 		const [minA, maxA] = scaleA
 		const [minB, maxB] = scaleB
 
@@ -35,9 +34,7 @@ export const flyAndScale = (
 		return valueB
 	}
 
-	const styleToString = (
-		style: Record<string, number | string | undefined>,
-	): string => {
+	const styleToString = (style: Record<string, number | string | undefined>): string => {
 		return Object.keys(style).reduce((str, key) => {
 			if (style[key] === undefined) return str
 			return str + `${key}:${style[key]};`
