@@ -1,3 +1,6 @@
+/**
+ * Utility functions provided by shadcn-svelte
+ */
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { cubicOut } from "svelte/easing"
