@@ -19,11 +19,12 @@
 
 		return intersectionObserver(element, {
 			root: scrollRoot,
-			rootMargin: "-10% 0px",
+			rootMargin: "-25% 0px",
 			threshold: Array.from({ length: 100 }, (_, i) => i / 100),
 		})
 	}
 
+	// Cleanup
 	onDestroy(() => {
 		$onScreen?.disconnect()
 		$nearCenter?.disconnect()
@@ -40,7 +41,7 @@
 			class="pointer-events-none absolute inset-0 -inset-y-2 -z-20 bg-cover bg-fixed bg-no-repeat"
 			style:background-image="url('{src}')"
 			style:filter="blur({4 + 10 * (1 - ($nearCenter?.intersectionRatio ?? 0))}px)"
-			style:opacity={0.15 + 0.25 * ($nearCenter?.intersectionRatio ?? 0)}
+			style:opacity={0.05 + 0.25 * ($nearCenter?.intersectionRatio ?? 0)}
 		/>
 	{/if}
 

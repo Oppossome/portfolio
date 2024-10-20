@@ -27,9 +27,9 @@
 	</ScrollImage.Root>
 </Story>
 
-<Story name="Single Item" args={{ alt: "Storybook" }} let:args>
+<Story name="Single Item" args={{ src: "https://picsum.photos/1920/1080" }} let:args>
 	<ScrollImage.Root class="h-[calc(100vh-2rem)] w-full overflow-auto">
-		<div class="h-96" />
+		<div class="h-screen" />
 		<ScrollImage.Image {...args}>
 			<div class="h-64 w-full px-2">
 				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nisi deleniti officiis nam
