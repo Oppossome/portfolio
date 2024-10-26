@@ -21,8 +21,6 @@ const preview: Preview = {
 			defaultTheme: "light",
 		}),
 	],
-	// Enable automatic documentation generation
-	tags: ["autodocs"],
 }
 
 export default preview

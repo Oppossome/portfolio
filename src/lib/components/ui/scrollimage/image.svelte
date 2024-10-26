@@ -7,8 +7,9 @@
 
 	const scrollRoot = scrollRootPair.get()
 
-	// Listen for the element on the screen
 	let element: HTMLElement | undefined
+
+	// Listen for the element on the screen
 	$: onScreen = element && intersectionObserver(element)
 
 	// Manually manage our reactive dependencies
@@ -19,7 +20,7 @@
 
 		return intersectionObserver(element, {
 			root: scrollRoot,
-			rootMargin: "-25% 0px",
+			rootMargin: "-10% 0px",
 			threshold: Array.from({ length: 100 }, (_, i) => i / 100),
 		})
 	}
