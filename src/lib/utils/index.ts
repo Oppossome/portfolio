@@ -1,5 +1,7 @@
 import { getContext, setContext, hasContext } from "svelte"
 import { writable, derived } from "svelte/store"
+import * as env from "$env/static/public"
+import { z } from "zod"
 
 // MARK: clamp
 
@@ -129,4 +131,40 @@ export function intersectionObserver(element: HTMLElement, options?: Intersectio
 		target: $details?.target,
 		time: $details?.time,
 	}))
+}
+
+/**
+ * Because I'm applying to jobs with my deadname and only want it to show up
+ * on my dedicated portfolio site, otherwise it'll fall back to my preferred name
+ * provided in the `.env` file. I hope I can make this unnecessary someday.
+ *
+ * MARK: Environment Variables
+ */
+
+interface AppConfig {
+	name: string
+	pronouns: { they: string; them: string }
+	linkedin: string | undefined
+}
+
+const rawConfigValidation = z.object({
+	PUBLIC_NAME: z.string().refine((name) => name.split(" ").length === 2),
+	PUBLIC_PRONOUNS: z.union([z.literal("He/Him"), z.literal("They/Them"), z.literal("She/Her")]),
+	PUBLIC_LINKEDIN: z.string().transform((link) => link || undefined), // Empty string is undefined
+})
+
+let cachedConfig: AppConfig | undefined
+export function getAppConfig(): AppConfig {
+	if (!cachedConfig) {
+		const rawConfig = rawConfigValidation.parse(env)
+		const [they, them] = rawConfig.PUBLIC_PRONOUNS.toLowerCase().split("/")
+
+		cachedConfig = {
+			name: rawConfig.PUBLIC_NAME,
+			pronouns: { they, them },
+			linkedin: rawConfig.PUBLIC_LINKEDIN,
+		}
+	}
+
+	return cachedConfig
 }

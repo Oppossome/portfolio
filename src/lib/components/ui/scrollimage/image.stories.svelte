@@ -3,7 +3,7 @@
 	import * as ScrollImage from "./index"
 
 	export const meta = {
-		title: "UI/ScrollImage",
+		title: "ScrollImage",
 		component: ScrollImage,
 	} satisfies MetaProps
 </script>

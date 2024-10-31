@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { twMerge } from "tailwind-merge"
 
-	export let variant: "fade" | "butt" | "bubble" = "fade"
+	export let variant: "fade" | "rounded" | "bubble" = "fade"
 	export { classes as class }
 	let classes = ""
 </script>
@@ -13,7 +13,7 @@
 			classes,
 		)}
 	/>
-{:else if variant === "butt"}
+{:else if variant === "rounded"}
 	<div
 		class={twMerge(
 			"ml-4 h-1 w-1 rounded-t-full bg-foreground bg-opacity-30 [.c-segment+&]:rounded-b-full [.c-segment+&]:rounded-t-none",
@@ -23,7 +23,7 @@
 {:else if variant === "bubble"}
 	<div class="group ml-4 flex h-6 w-1 flex-col-reverse justify-between [.c-segment+&]:flex-col">
 		<svelte:self
-			variant="butt"
+			variant="rounded"
 			class="ml-0 group-[.c-segment+&]:rounded-b-full group-[.c-segment+&]:rounded-t-none"
 		/>
 

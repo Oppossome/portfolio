@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { addWeeks, addMonths, getDayOfYear, getWeek, getWeeksInMonth, setDay } from "date-fns"
 
+	import Cell from "./cell.svelte"
+
 	export let year: number
 	export let activity: number[]
 
@@ -48,7 +50,7 @@
 					{@const dayDate = addWeeks(weekdayStart, weekIdx)}
 					{@const activityValue = activity.at(getDayOfYear(dayDate))}
 
-					<td class="h-3 w-3">
+					<td class="p-0">
 						{#if dayDate.getFullYear() === year && activityValue !== undefined}
 							<slot date={dayDate} value={activityValue} />
 						{/if}
@@ -57,4 +59,21 @@
 			</tr>
 		{/each}
 	</tbody>
+
+	<tfoot>
+		<tr>
+			<!-- Graph Key -->
+			<td colspan="100" class="pt-2 text-center text-xs">
+				<div class="float-right flex gap-2">
+					Less
+					<div class="flex">
+						{#each [0, 2, 4, 8] as value}
+							<Cell {value} />
+						{/each}
+					</div>
+					More
+				</div>
+			</td>
+		</tr>
+	</tfoot>
 </table>

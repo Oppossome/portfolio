@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
 	import { type MetaProps } from "@storybook/addon-svelte-csf"
-	import * as Timeline from "./index"
+	import * as Components from "./index"
 
 	export const meta = {
-		title: "UI/Timeline/Segment",
-		component: Timeline.Segment,
+		title: "Timeline/Components/Segment",
+		component: Components.Segment,
 		argTypes: {
 			class: {
 				control: { type: "text" },
@@ -27,39 +27,39 @@
 
 <Story name="Default" let:args>
 	<!-- With Icon -->
-	<Timeline.Segment icon={Plus} {...args}>
+	<Components.Segment icon={Plus} {...args}>
 		Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos, vitae ratione. Expedita corporis
 		tempora, asperiores quo minima ratione sit placeat accusamus quia in reiciendis maxime autem
 		dolor illum neque corrupti.
-	</Timeline.Segment>
+	</Components.Segment>
 
 	<!-- Spacer -->
-	<Timeline.Segment class="h-8" {...args} />
+	<Components.Segment class="h-8" {...args} />
 
 	<!-- Without Icon -->
-	<Timeline.Segment {...args}>
+	<Components.Segment {...args}>
 		Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque autem animi qui optio a?
 		Cumque neque minima adipisci quo suscipit, ex minus officiis animi impedit, deleniti qui omnis
 		excepturi rem.
-	</Timeline.Segment>
+	</Components.Segment>
 </Story>
 
 <Story name="With Icon" args={{ icon: Plus }} let:args>
-	<Timeline.Segment {...args}>
+	<Components.Segment {...args}>
 		Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos, vitae ratione. Expedita corporis
 		tempora, asperiores quo minima ratione sit placeat accusamus quia in reiciendis maxime autem
 		dolor illum neque corrupti.
-	</Timeline.Segment>
+	</Components.Segment>
 </Story>
 
 <Story name="Without Icon" let:args>
-	<Timeline.Segment {...args}>
+	<Components.Segment {...args}>
 		Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque autem animi qui optio a?
 		Cumque neque minima adipisci quo suscipit, ex minus officiis animi impedit, deleniti qui omnis
 		excepturi rem.
-	</Timeline.Segment>
+	</Components.Segment>
 </Story>
 
 <Story name="Empty" args={{ class: "h-8" }} let:args>
-	<Timeline.Segment {...args} />
+	<Components.Segment {...args} />
 </Story>

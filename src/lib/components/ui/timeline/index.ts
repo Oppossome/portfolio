@@ -1,2 +1,3 @@
-export { default as Segment } from "./segment.svelte"
-export { default as Cap } from "./cap.svelte"
+export * as Components from "./components"
+export { default as Year } from "./year.svelte"
+export { default as Root } from "./root.svelte"

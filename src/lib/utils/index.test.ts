@@ -63,3 +63,67 @@ describe("defineContextPair", () => {
 		expect(contextPair.get(true)).toBeUndefined()
 	})
 })
+
+describe("getAppConfig", () => {
+	let appConfig: typeof import("$env/static/public") | Record<string, never>
+
+	beforeEach(() => {
+		appConfig = {}
+		vi.resetModules()
+		vi.doMock("$env/static/public", () => appConfig)
+	})
+
+	afterEach(() => {
+		vi.doUnmock("$env/static/public")
+	})
+
+	test("It should throw an error if the config isn't satisfied", async () => {
+		const { getAppConfig } = await import("./index")
+		expect(() => getAppConfig()).toThrowError()
+	})
+
+	test("ok - John Doe", async () => {
+		appConfig = {
+			PUBLIC_NAME: "John Doe",
+			PUBLIC_PRONOUNS: "He/Him",
+			PUBLIC_LINKEDIN: "JohnDoe",
+		}
+
+		const { getAppConfig } = await import("./index")
+		expect(getAppConfig()).toEqual({
+			name: "John Doe",
+			pronouns: { they: "he", them: "him" },
+			linkedin: "JohnDoe",
+		})
+	})
+
+	test("ok - Jay Doe", async () => {
+		appConfig = {
+			PUBLIC_NAME: "Jay Doe",
+			PUBLIC_PRONOUNS: "They/Them",
+			PUBLIC_LINKEDIN: "",
+		}
+
+		const { getAppConfig } = await import("./index")
+		expect(getAppConfig()).toEqual({
+			name: "Jay Doe",
+			pronouns: { they: "they", them: "them" },
+			linkedin: undefined,
+		})
+	})
+
+	test("ok - Jane Doe", async () => {
+		appConfig = {
+			PUBLIC_NAME: "Jane Doe",
+			PUBLIC_PRONOUNS: "She/Her",
+			PUBLIC_LINKEDIN: "",
+		}
+
+		const { getAppConfig } = await import("./index")
+		expect(getAppConfig()).toEqual({
+			name: "Jane Doe",
+			pronouns: { they: "she", them: "her" },
+			linkedin: undefined,
+		})
+	})
+})

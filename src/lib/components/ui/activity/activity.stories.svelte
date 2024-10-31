@@ -3,7 +3,7 @@
 	import * as Activity from "./index"
 
 	export const meta = {
-		title: "UI/Activity",
+		title: "Activity",
 		component: Activity.Root,
 		argTypes: {
 			year: {
