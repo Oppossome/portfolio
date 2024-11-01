@@ -4,6 +4,7 @@ import svelte from "eslint-plugin-svelte"
 import globals from "globals"
 import tseslint from "typescript-eslint"
 import storybook from "eslint-plugin-storybook"
+import importPlugin from "eslint-plugin-import"
 
 export default tseslint.config(
 	eslint.configs.recommended,
@@ -33,6 +34,26 @@ export default tseslint.config(
 				{
 					argsIgnorePattern: "^_",
 					varsIgnorePattern: "^\\$\\$(Props|Events|Slots|Generic)$",
+				},
+			],
+		},
+	},
+	{
+		rules: {
+			"import/order": [
+				"error",
+				{
+					pathGroups: [
+						{
+							pattern: "$lib/**",
+							group: "lib",
+						},
+						{
+							pattern: "src/**",
+							group: "src",
+						},
+					],
+					groups: [["builtin", "external"], ["src", "lib"][("parent", "sibling", "index")]],
 				},
 			],
 		},
