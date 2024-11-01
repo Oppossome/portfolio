@@ -39,6 +39,7 @@
 		"date-fns": "^4.1.0",
 		"eslint": "^9.0.0",
 		"eslint-config-prettier": "^9.1.0",
+		"eslint-import-resolver-typescript": "^3.6.3",
 		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-storybook": "0.10.0--canary.156.ce8985b.0",
 		"eslint-plugin-svelte": "^2.36.0",

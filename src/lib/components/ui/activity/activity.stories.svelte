@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import { type MetaProps } from "@storybook/addon-svelte-csf"
+
 	import * as Activity from "./index"
 
 	export const meta = {
@@ -22,7 +23,6 @@
 <script lang="ts">
 	import { getDaysInYear } from "date-fns"
 	import { Story } from "@storybook/addon-svelte-csf"
-
 	import { faker } from "@faker-js/faker"
 
 	function fakeActivity(year: number) {

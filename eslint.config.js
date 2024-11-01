@@ -13,6 +13,7 @@ export default tseslint.config(
 	prettier,
 	...svelte.configs["flat/prettier"],
 	...storybook.configs["flat/recommended"],
+	importPlugin.flatConfigs.recommended,
 	{
 		languageOptions: {
 			globals: {
@@ -39,23 +40,47 @@ export default tseslint.config(
 		},
 	},
 	{
+		settings: {
+			"import/resolver": {
+				typescript: true,
+			},
+		},
 		rules: {
+			// see: https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
 			"import/order": [
 				"error",
 				{
+					named: {
+						import: true,
+						types: "mixed",
+					},
+					"newlines-between": "always",
 					pathGroups: [
+						// SvelteKit environment variables
+						{
+							pattern: "$env/**",
+							group: "external",
+							position: "after",
+						},
+						// SvelteKit src/lib alias
 						{
 							pattern: "$lib/**",
-							group: "lib",
-						},
-						{
-							pattern: "src/**",
-							group: "src",
+							group: "internal",
+							position: "after",
 						},
 					],
-					groups: [["builtin", "external"], ["src", "lib"][("parent", "sibling", "index")]],
+					groups: [["builtin", "external"], "internal", ["parent", "sibling", "index"]],
 				},
 			],
+			"import/no-unresolved": [
+				"error",
+				{
+					ignore: ["^\\$env"],
+				},
+			],
+			// eslint-plugin-import has an issue with incorrectly simplifying svelte/store imports into svelte
+			// https://github.com/import-js/eslint-plugin-import/issues/1479
+			"import/no-duplicates": "off",
 		},
 	},
 	{

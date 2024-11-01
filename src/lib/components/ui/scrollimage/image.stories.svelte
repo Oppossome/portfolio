@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import { type MetaProps } from "@storybook/addon-svelte-csf"
+
 	import * as ScrollImage from "./index"
 
 	export const meta = {

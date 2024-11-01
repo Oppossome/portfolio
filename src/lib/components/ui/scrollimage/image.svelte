@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onDestroy } from "svelte"
+
 	import { intersectionObserver } from "$lib/utils"
+
 	import { scrollRootPair } from "./root.svelte"
 
 	export let src: string

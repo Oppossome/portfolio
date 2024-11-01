@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import { type MetaProps } from "@storybook/addon-svelte-csf"
+
 	import * as Timeline from "./index"
 
 	export const meta = {
