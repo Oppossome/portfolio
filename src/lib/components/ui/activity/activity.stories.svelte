@@ -21,9 +21,9 @@
 </script>
 
 <script lang="ts">
-	import { getDaysInYear } from "date-fns"
-	import { Story } from "@storybook/addon-svelte-csf"
 	import { faker } from "@faker-js/faker"
+	import { Story } from "@storybook/addon-svelte-csf"
+	import { getDaysInYear } from "date-fns"
 
 	function fakeActivity(year: number) {
 		faker.seed(year)

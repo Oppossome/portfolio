@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { SvelteComponent } from "svelte"
 	import type { IconProps } from "lucide-svelte"
+	import type { SvelteComponent } from "svelte"
 	import { twMerge } from "tailwind-merge"
 
 	export let icon: typeof SvelteComponent<IconProps> | undefined = undefined

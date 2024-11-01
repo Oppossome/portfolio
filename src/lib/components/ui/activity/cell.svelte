@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { twMerge } from "tailwind-merge"
 
-	import { clamp } from "$lib/utils"
 	import * as Tooltip from "$lib/components/ui/tooltip"
+	import { clamp } from "$lib/utils"
 
 	export let value: number
 	export { classes as class }

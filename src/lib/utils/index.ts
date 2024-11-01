@@ -1,6 +1,6 @@
-import { getContext, setContext, hasContext } from "svelte"
+import { getContext, hasContext, setContext } from "svelte"
+import { derived, writable } from "svelte/store"
 import { z } from "zod"
-import { writable, derived } from "svelte/store"
 
 import * as env from "$env/static/public"
 
@@ -57,8 +57,8 @@ interface ContextPair<T> {
  *  type ContextPairValue = ContextPairType<typeof contextPair> // number
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ContextPairType<T extends ContextPair<any>> = T extends ContextPair<infer U> ? U : never
+export type ContextPairType<T extends ContextPair<unknown>> =
+	T extends ContextPair<infer U> ? U : never
 
 /**
  * Defines a context pair with a specified key.
@@ -139,7 +139,7 @@ export function intersectionObserver(element: HTMLElement, options?: Intersectio
  * on my dedicated portfolio site, otherwise it'll fall back to my preferred name
  * provided in the `.env` file. I hope I can make this unnecessary someday.
  *
- * MARK: Environment Variables
+ * MARK: getAppConfig
  */
 
 interface AppConfig {

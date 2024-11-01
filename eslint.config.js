@@ -50,10 +50,7 @@ export default tseslint.config(
 			"import/order": [
 				"error",
 				{
-					named: {
-						import: true,
-						types: "mixed",
-					},
+					named: { import: true },
 					"newlines-between": "always",
 					pathGroups: [
 						// SvelteKit environment variables

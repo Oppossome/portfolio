@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { addWeeks, addMonths, getDayOfYear, getWeek, getWeeksInMonth, setDay } from "date-fns"
+	import { addMonths, addWeeks, getDayOfYear, getWeek, getWeeksInMonth, setDay } from "date-fns"
 
 	import Cell from "./cell.svelte"
 
