@@ -1,6 +1,9 @@
 {
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
+		/** 
+			SvelteKit Provided Config 
+		*/
 		"allowJs": true,
 		"checkJs": true,
 		"esModuleInterop": true,
@@ -9,10 +12,22 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"moduleResolution": "bundler"
+		"moduleResolution": "bundler",
+
+		/** 
+			Testing Globals
+			see: https://vitest.dev/config/#globals
+		*/
+		"types": ["vitest/globals"],
+
+		/**
+			Enabled as it allows us to visually distinguish between `.svelte` and `.svelte.ts` file imports
+			see: https://svelte.dev/docs/svelte/svelte-js-files
+		 */
+		"allowImportingTsExtensions": true
 	}
-	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
-	// except $lib which is handled by https://kit.svelte.dev/docs/configuration#files
+	// Path aliases are handled by https://svelte.dev/docs/kit/configuration#alias
+	// except $lib which is handled by https://svelte.dev/docs/kit/configuration#files
 	//
 	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes
 	// from the referenced tsconfig.json - TypeScript does not merge them in

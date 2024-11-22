@@ -1,5 +1,9 @@
 <script lang="ts">
-	import Button from "$lib/components/ui/button/button.svelte"
+	import Timeline from "./timeline.svelte"
+	import Hero from "./hero.svelte"
 </script>
 
-<Button>Click me</Button>
+<div class="mx-auto mb-32 w-96 max-w-[calc(100vw-1rem)]">
+	<Hero />
+	<Timeline />
+</div>
