@@ -72,7 +72,7 @@ interface ContextPair<T> {
 	 * console.log(myContextPair.get(true)) // undefined
 	 *
 	 */
-	get: (() => T) & ((allowUndefined: boolean) => T | undefined)
+	get: ((allowUndefined?: false) => T) & ((allowUndefined: true) => T | undefined)
 }
 
 /**
