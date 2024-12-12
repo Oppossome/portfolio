@@ -1,5 +1,6 @@
+import { createSubscriber } from "svelte/reactivity"
 import { on } from "svelte/events"
-import { isMobile } from "is-mobile"
+import { untrack } from "svelte"
 
 // MARK: useIntersectionObserver
 
@@ -54,82 +55,73 @@ export function useIntersectionObserver(opts: {
 	}
 }
 
-// MARK: useScreenPoint
+// MARK: useMousePoint
 
 type Point = { x: number; y: number }
 
-function useWindowDimensions() {
-	let windowDimensions: Point = $state.raw({ x: window.innerWidth, y: window.innerHeight })
+/**
+ * Custom hook to track the current mouse position.
+ *
+ * This function sets up an event listener for the `mousemove` event on the window object
+ * and updates the mouse position accordingly. It returns an object containing a getter `current`
+ * that provides the latest mouse position.
+ *
+ * @example
+ * <script lang="ts">
+ *   import { useMousePoint } from './utils.svelte.ts';
+ *
+ *   const mousePoint = useMousePoint();
+ * </script>
+ *
+ * <div>
+ *   <p>Mouse X: {mousePoint.current.x}</p>
+ *   <p>Mouse Y: {mousePoint.current.y}</p>
+ * </div>
+ */
+export function useMousePoint(): { current: Point } {
+	let mousePoint: Point = $state.raw({ x: 0, y: 0 })
+
+	$effect(() =>
+		on(window, "mousemove", (event) => {
+			mousePoint = { x: event.clientX, y: event.clientY }
+		}),
+	)
+
+	return {
+		get current() {
+			return mousePoint
+		},
+	}
+}
+
+// MARK: useResizeObserver
+
+export function useResizeObserver(element: () => HTMLElement | undefined): {
+	current: ResizeObserverEntry | undefined
+} {
+	let observerEntry: ResizeObserverEntry | undefined = $state()
 
 	$effect(() => {
-		const unsubResize = on(window, "resize", () => {
-			windowDimensions = { x: window.innerWidth, y: window.innerHeight }
+		const resizeObserver = new ResizeObserver((entries) => {
+			observerEntry = entries[0]
 		})
 
-		const unsubScroll = on(window, "scroll", () => {
-			windowDimensions = { x: window.innerWidth, y: window.innerHeight }
+		$effect(() => {
+			const currentElement = element()
+			if (!currentElement) return
+
+			resizeObserver.observe(currentElement)
+			return () => resizeObserver.unobserve(currentElement)
 		})
 
 		return () => {
-			unsubResize()
-			unsubScroll()
+			resizeObserver.disconnect()
 		}
 	})
 
 	return {
-		get value() {
-			return windowDimensions
-		},
-	}
-}
-
-export function useScreenPoint(opts: {
-	element: HTMLElement | undefined
-	point?: { x?: number; y?: number }
-}): { percent: { x: number; y: number } | undefined } {
-	const windowDimensions = useWindowDimensions()
-	const pointPercentage = $derived.by(() => {
-		if (!opts.element) return undefined
-
-		// Calculate the real position of the point scalar values
-		const pointX = windowDimensions.value.x * (opts.point?.x ?? 0.5)
-		const pointY = windowDimensions.value.y * (opts.point?.y ?? 0.5)
-
-		const elementRect = opts.element.getBoundingClientRect()
-		return {
-			x: (pointX - elementRect.left) / elementRect.width,
-			y: (pointY - elementRect.top) / elementRect.height,
-		}
-	})
-
-	return {
-		get percent() {
-			return pointPercentage
-		},
-	}
-}
-
-// MARK: useMousePosition
-
-export function useMousePosition(defaultPosition: Point = { x: 0.5, y: 0.5 }): { value: Point } {
-	if (isMobile()) return { value: defaultPosition }
-	let rawMousePosition: Point = $state.raw(defaultPosition)
-
-	$effect(() => {
-		return on(document, "mousemove", (event) => {
-			rawMousePosition = { x: event.clientX, y: event.clientY }
-		})
-	})
-
-	const windowDimensions = useWindowDimensions()
-	const mousePosition: Point = $derived({
-		x: rawMousePosition.x / windowDimensions.value.x,
-		y: rawMousePosition.y / windowDimensions.value.y,
-	})
-
-	return {
-		get value() {
-			return mousePosition
+		get current() {
+			return observerEntry
 		},
 	}
 }

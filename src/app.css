@@ -73,3 +73,11 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+body {
+	@apply h-full;
+}
+
+html {
+	@apply min-h-full;
+}

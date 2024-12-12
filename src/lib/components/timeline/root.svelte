@@ -5,7 +5,7 @@
 
 	interface Props {
 		filters?: Partial<Timeline.Context.TimelineFilters>
-		children: Snippet<[]>
+		children: Snippet
 	}
 
 	let { filters, children }: Props = $props()

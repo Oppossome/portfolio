@@ -9,8 +9,8 @@
 	interface Props {
 		date: ConstructorParameters<typeof Timeline.Context.TimelineEntry>[1]
 		src?: string
-		icon?: Snippet<[]>
-		children: Snippet<[]>
+		icon?: Snippet
+		children: Snippet
 	}
 
 	let { date, src, icon, children }: Props = $props()
@@ -19,6 +19,10 @@
 	const ctxTimelineEntry = new Timeline.Context.TimelineEntry(ctxTimeline, date)
 </script>
 
-<Segment {src} class={cn("max-w-96", !ctxTimelineEntry.visible && "hidden")} {icon}>
+<Segment
+	src={ctxTimelineEntry.visible ? src : undefined}
+	class={cn("max-w-96", !ctxTimelineEntry.visible && "hidden")}
+	{icon}
+>
 	{@render children()}
 </Segment>

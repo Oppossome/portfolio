@@ -5,17 +5,16 @@
 
 	interface Props {
 		class?: string
-		// A value that moves between 0 - 1
-		timingValue: number
-		children: Snippet<[]>
+		value: number
+		children: Snippet
 	}
 
-	let { class: classes = "", timingValue, children }: Props = $props()
+	let { class: classes = "", value, children }: Props = $props()
 
 	// The values control the mask applied to the contents of the fade-in,
-	const maskCenter = $derived(50 + Math.pow(remap(timingValue, 0, 1, -1, 1), 3) * 65)
-	const maskInner = $derived(remap(Math.sin(timingValue * Math.PI), 0, 0.8, 0, 85))
-	const maskOuter = $derived(remap(Math.sin(timingValue * Math.PI), 0, 0.6, 0, 100))
+	const maskCenter = $derived(50 + Math.pow(remap(value, 0, 1, -1, 1), 3) * 65)
+	const maskInner = $derived(remap(Math.sin(value * Math.PI), 0, 0.8, 0, 85))
+	const maskOuter = $derived(remap(Math.sin(value * Math.PI), 0, 0.6, 0, 100))
 </script>
 
 <div

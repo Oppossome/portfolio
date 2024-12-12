@@ -2,15 +2,14 @@
 	import { twMerge } from "tailwind-merge"
 	import { type Snippet } from "svelte"
 
-	import { useScreenPoint, useMousePosition } from "$lib/utils.svelte"
-	import * as BgSpotlight from "$lib/components/ui/bg-spotlight"
+	import * as ScrollPoint from "$lib/components/ui/scroll-point"
 	import { clamp } from "$lib/utils"
 
 	interface Props {
 		class?: string
 		src?: string
-		icon?: Snippet<[]>
-		children: Snippet<[]>
+		icon?: Snippet
+		children: Snippet
 	}
 
 	let { class: classes = "", src, icon, children }: Props = $props()
@@ -18,41 +17,25 @@
 	let containerElem: HTMLDivElement | undefined = $state()
 	let iconElem: HTMLDivElement | undefined = $state()
 
-	const mousePosition = useMousePosition()
-	const containerPoint = useScreenPoint({
-		get point() {
-			return mousePosition.value
-		},
-		get element() {
-			return containerElem
-		},
-	})
-
-	const iconPoint = useScreenPoint({
-		get point() {
-			return mousePosition.value
-		},
-		get element() {
-			return iconElem
-		},
-	})
+	const containerPoint = ScrollPoint.Context.ScrollPoint.get(true)?.use(() => containerElem)
+	const iconPoint = ScrollPoint.Context.ScrollPoint.get(true)?.use(() => iconElem)
 </script>
 
-{#if src && containerPoint.percent}
-	<BgSpotlight.Root timingValue={clamp(containerPoint.percent.y, 0, 1)} class="opacity-25">
+{#if src && containerPoint?.current}
+	<ScrollPoint.Spotlight value={clamp(containerPoint.current.y, 0, 1)} class="opacity-25">
 		<img class="h-full w-full object-cover" {src} alt="" />
-	</BgSpotlight.Root>
+	</ScrollPoint.Spotlight>
 {/if}
 
 <div
 	class="c_segment {twMerge('relative ml-2 mr-2 flex w-full flex-col p-2 pl-5', classes)}"
-	style:--percentage="{(containerPoint.percent?.y ?? 0) * 100}%"
+	style:--percentage="{(containerPoint?.current?.y ?? 0) * 100}%"
 	bind:this={containerElem}
 >
 	{#if icon}
 		<div
 			class="c_segment-icon {'absolute left-0 grid size-6 -translate-x-1/2 place-items-center rounded-full'}"
-			style:--percentage="{(iconPoint.percent?.y ?? 0) * 100}%"
+			style:--percentage="{(iconPoint?.current?.y ?? 0) * 100}%"
 			bind:this={iconElem}
 		>
 			{@render icon()}

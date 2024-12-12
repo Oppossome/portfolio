@@ -28,6 +28,7 @@ export interface TimelineFilters {
 
 export class Timeline {
 	static #contextPair = defineContextPair<Timeline>("timeline")
+	static get = Timeline.#contextPair.get
 
 	entries: TimelineEntry[] = $state([])
 	entriesHidden = $derived(this.entries.every((entry) => !entry.visible))
@@ -42,17 +43,11 @@ export class Timeline {
 		this.filters = mergeObjects(this.filters, filters)
 		Timeline.#contextPair.set(this)
 	}
-
-	static get(allowUndefined: true): Timeline | undefined
-	static get(allowUndefined?: false): Timeline
-
-	static get(allowUndefined = false) {
-		return this.#contextPair.get(allowUndefined)
-	}
 }
 
 export class TimelineEntry {
 	static #contextPair = defineContextPair<TimelineEntry>("timeline-entry")
+	static get = TimelineEntry.#contextPair.get
 
 	date: [Date, Date]
 	/** {@link EntryTag} associated with the timeline entry, populated by the [card header](./card/header.svelte) */
@@ -135,13 +130,5 @@ export class TimelineEntry {
 				this.#textContent = this.#textContent.filter((iText) => iText !== text)
 			}
 		})
-	}
-
-	/** Matches the overload utilized by the {@link defineContextPair} getter */
-	static get(allowUndefined: true): TimelineEntry | undefined
-	static get(allowUndefined?: false): TimelineEntry
-
-	static get(allowUndefined = false) {
-		return this.#contextPair.get(allowUndefined)
 	}
 }
