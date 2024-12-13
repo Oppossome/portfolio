@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy-netlify:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
