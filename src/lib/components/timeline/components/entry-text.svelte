@@ -11,7 +11,7 @@
 	let { text, class: classes = "" }: Props = $props()
 
 	// Registers the text in the timeline entry so it can be searched for utilizing the search filter
-	const ctxTimelineEntry = Timeline.Context.TimelineEntry.get(true)
+	const ctxTimelineEntry = Timeline.State.TimelineEntry.get(true)
 	ctxTimelineEntry?.registerText(() => text)
 
 	const searchMatching = $derived(

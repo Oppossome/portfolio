@@ -17,8 +17,8 @@
 	let containerElem: HTMLDivElement | undefined = $state()
 	let iconElem: HTMLDivElement | undefined = $state()
 
-	const containerPoint = ScrollPoint.Context.ScrollPoint.get(true)?.use(() => containerElem)
-	const iconPoint = ScrollPoint.Context.ScrollPoint.get(true)?.use(() => iconElem)
+	const containerPoint = ScrollPoint.State.ScrollPoint.get(true)?.use(() => containerElem)
+	const iconPoint = ScrollPoint.State.ScrollPoint.get(true)?.use(() => iconElem)
 </script>
 
 {#if src && containerPoint?.current}
@@ -30,6 +30,7 @@
 <div
 	class="c_segment {twMerge('relative ml-2 mr-2 flex w-full flex-col p-2 pl-5', classes)}"
 	style:--percentage="{(containerPoint?.current?.y ?? 0) * 100}%"
+	data-testid="timeline-segment"
 	bind:this={containerElem}
 >
 	{#if icon}

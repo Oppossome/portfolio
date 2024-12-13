@@ -7,7 +7,7 @@
 	import Segment from "../components/segment.svelte"
 
 	interface Props {
-		date: ConstructorParameters<typeof Timeline.Context.TimelineEntry>[1]
+		date: ConstructorParameters<typeof Timeline.State.TimelineEntry>[1]
 		src?: string
 		icon?: Snippet
 		children: Snippet
@@ -15,8 +15,8 @@
 
 	let { date, src, icon, children }: Props = $props()
 
-	const ctxTimeline = Timeline.Context.Timeline.get()
-	const ctxTimelineEntry = new Timeline.Context.TimelineEntry(ctxTimeline, date)
+	const ctxTimeline = Timeline.State.Timeline.get()
+	const ctxTimelineEntry = new Timeline.State.TimelineEntry(ctxTimeline, date)
 </script>
 
 <Segment

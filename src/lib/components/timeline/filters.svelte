@@ -10,7 +10,7 @@
 
 	import * as Timeline from "./index"
 
-	const { filters } = Timeline.Context.Timeline.get()
+	const { filters } = Timeline.State.Timeline.get()
 
 	let selectTagOpen: boolean = $state(false)
 </script>
@@ -18,6 +18,7 @@
 <div class="mb-2 flex gap-2">
 	<Input
 		class="h-8 w-[150px] lg:w-[250px]"
+		data-testid="timeline-filters-search"
 		placeholder="Search Timeline"
 		type="search"
 		bind:value={filters.search}
@@ -28,6 +29,7 @@
 			{#snippet child({ props })}
 				<Button
 					class="h-8 border-dashed bg-transparent"
+					data-testid="timeline-filters-tags"
 					size="sm"
 					variant="outline"
 					{...props}
@@ -41,7 +43,7 @@
 
 						{#if filters.tags.size === 1}
 							<!-- For consistent ordering, iterate through every tag... -->
-							{#each Timeline.Context.entryTags as tag}
+							{#each Timeline.State.entryTags as tag}
 								{#if filters.tags.has(tag)}
 									<Timeline.Components.Tag text={tag} />
 								{/if}
@@ -61,9 +63,10 @@
 				<Command.List>
 					<Command.Empty>No results found.</Command.Empty>
 					<Command.Group>
-						{#each Timeline.Context.entryTags as tag}
+						{#each Timeline.State.entryTags as tag}
 							<Command.Item
 								value="#{tag}"
+								data-testid="timeline-filters-tag-{tag.toLowerCase()}"
 								onSelect={() => {
 									if (filters.tags.has(tag)) filters.tags.delete(tag)
 									else filters.tags.add(tag)
@@ -112,6 +115,7 @@
 				filters.tags.clear()
 				filters.date = undefined
 			}}
+			data-testid="timeline-filters-reset"
 		>
 			Reset
 			<X />

@@ -5,13 +5,13 @@
 	import * as Timeline from "../index"
 
 	interface Props {
-		tags?: Timeline.Context.TimelineEntry["tags"]
+		tags?: Timeline.State.TimelineEntry["tags"]
 		title: string
 	}
 
 	let { title, tags = [] }: Props = $props()
 
-	const ctxTimelineEntry = Timeline.Context.TimelineEntry.get()
+	const ctxTimelineEntry = Timeline.State.TimelineEntry.get()
 	ctxTimelineEntry.tags = tags
 
 	// Format the date for display.
@@ -35,7 +35,7 @@
 			<Tags class="size-3 text-muted-foreground" />
 
 			<!-- For consistent ordering, iterate through all tags...  -->
-			{#each Timeline.Context.entryTags as tag}
+			{#each Timeline.State.entryTags as tag}
 				<!-- ...ignoring ones that don't match.  -->
 				{#if tags.includes(tag)}
 					<Timeline.Components.Tag

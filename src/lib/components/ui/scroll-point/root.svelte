@@ -7,13 +7,13 @@
 
 	interface Props {
 		class?: string
-		children: Snippet<[ScrollPoint.Context.ScrollPoint]>
+		children: Snippet<[ScrollPoint.State.ScrollPoint]>
 	}
 
 	let { class: classes = "", children }: Props = $props()
 
 	let element: HTMLElement | undefined = $state()
-	const scrollPoint = new ScrollPoint.Context.ScrollPoint(() => element)
+	const scrollPoint = new ScrollPoint.State.ScrollPoint(() => element)
 </script>
 
 <div class={cn("h-full overflow-auto", classes)} bind:this={element}>

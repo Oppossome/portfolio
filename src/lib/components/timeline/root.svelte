@@ -4,14 +4,14 @@
 	import * as Timeline from "./index"
 
 	interface Props {
-		filters?: Partial<Timeline.Context.TimelineFilters>
+		filters?: Partial<Timeline.State.TimelineFilters>
 		children: Snippet
 	}
 
 	let { filters, children }: Props = $props()
 
 	// Register the timeline context.
-	const ctxTimeline = new Timeline.Context.Timeline(filters)
+	const ctxTimeline = new Timeline.State.Timeline(filters)
 </script>
 
 <div class="flex flex-col">
