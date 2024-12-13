@@ -1,14 +1,8 @@
 name: Deploy
 
-# Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 # Allow one concurrent deployment
 concurrency:
-  group: "pages"
+  group: "netlify"
   cancel-in-progress: true
 
 # Triggers the deployment workflow on push to the main branch or manually
@@ -21,7 +15,7 @@ jobs:
   deploy-netlify:
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Wait for tests to succeed
@@ -54,8 +48,12 @@ jobs:
           BASE_PATH: "/${{ github.event.repository.name }}"
         run: pnpm run build
 
+      # Roughly following this solution
+      # https://github.com/jsmrcaga/action-netlify-deploy/issues/51#issuecomment-2449352457
       - name: Deploy to Netlify
-        uses: jsmrcaga/action-netlify-deploy@v2.0.0
-        with:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          pnpm dlx netlify deploy \
+            --dir build \
+            --site ${{ secrets.NETLIFY_SITE_ID }} \
+            --auth ${{ secrets.NETLIFY_TOKEN }} \
+            --prod-if-unlocked
