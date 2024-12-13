@@ -49,8 +49,8 @@ jobs:
 
       - name: Build Project
         env:
-          PUBLIC_NAME: ${{ secrets.NETLIFY_PUBLIC_NAME }}
-          PUBLIC_LINKEDIN: ${{ secrets.NETLIFY_PUBLIC_LINKEDIN }}
+          PUBLIC_NAME: ${{ secrets.PUBLIC_NAME }}
+          PUBLIC_LINKEDIN: ${{ secrets.PUBLIC_LINKEDIN }}
           BASE_PATH: "/${{ github.event.repository.name }}"
         run: pnpm run build
 
