@@ -51,7 +51,7 @@ jobs:
       # https://github.com/jsmrcaga/action-netlify-deploy/issues/51#issuecomment-2449352457
       - name: Deploy to Netlify
         run: |
-          pnpm dlx netlify deploy \
+          npx netlify deploy \
             --dir build \
             --site ${{ secrets.NETLIFY_SITE_ID }} \
             --auth ${{ secrets.NETLIFY_TOKEN }} \
