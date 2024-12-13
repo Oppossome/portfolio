@@ -11,7 +11,7 @@
 <ScrollPoint.Root>
 	{@render children()}
 
-	<div class="flex items-center justify-center gap-1 py-8 text-xs text-muted-foreground">
+	<div class="flex items-center justify-center gap-1 pb-8 text-xs text-muted-foreground">
 		Made in
 		<a class="underline hover:text-foreground" href="https://svelte.dev/">Svelte 5</a>
 		with
