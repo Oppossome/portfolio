@@ -21,6 +21,7 @@
 
 <Segment
 	src={ctxTimelineEntry.visible ? src : undefined}
+	data-testid="timeline-card"
 	class={cn("max-w-96", !ctxTimelineEntry.visible && "hidden")}
 	{icon}
 >

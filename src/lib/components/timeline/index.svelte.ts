@@ -96,7 +96,7 @@ export class TimelineEntry {
 
 		// Check languages filter
 		if (filters.tags.size !== 0) {
-			const entryMatches = filters.tags.values().every((tag) => this.tags.includes(tag))
+			const entryMatches = Array.from(filters.tags).every((tag) => this.tags.includes(tag))
 
 			if (!entryMatches) {
 				return false

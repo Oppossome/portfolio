@@ -8,11 +8,18 @@
 	interface Props {
 		class?: string
 		src?: string
+		"data-testid"?: string
 		icon?: Snippet
 		children: Snippet
 	}
 
-	let { class: classes = "", src, icon, children }: Props = $props()
+	let {
+		class: classes = "",
+		"data-testid": testid = "timeline-segment",
+		src,
+		icon,
+		children,
+	}: Props = $props()
 
 	let containerElem: HTMLDivElement | undefined = $state()
 	let iconElem: HTMLDivElement | undefined = $state()
@@ -30,7 +37,7 @@
 <div
 	class="c_segment {twMerge('relative ml-2 mr-2 flex w-full flex-col p-2 pl-5', classes)}"
 	style:--percentage="{(containerPoint?.current?.y ?? 0) * 100}%"
-	data-testid="timeline-segment"
+	data-testid={testid}
 	bind:this={containerElem}
 >
 	{#if icon}

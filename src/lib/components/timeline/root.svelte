@@ -14,10 +14,21 @@
 	const ctxTimeline = new Timeline.State.Timeline(filters)
 </script>
 
-<div class="flex flex-col">
+<div class="c_timeline-root flex flex-col">
 	{@render children()}
 
 	{#if ctxTimeline.entriesHidden}
 		No Entries Found!
+	{:else}
+		<Timeline.Components.Segment class="timeline-end">
+			<div class="h-16"></div>
+		</Timeline.Components.Segment>
 	{/if}
 </div>
+
+<style lang="postcss">
+	/** Taper off the end of the timeline with a gradient. */
+	.c_timeline-root :global(.timeline-end::before) {
+		mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+	}
+</style>

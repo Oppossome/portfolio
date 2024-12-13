@@ -5,7 +5,7 @@ test.describe("portfolio", () => {
 		await page.goto("/")
 
 		// Ensure timeline entries are visible on the page
-		const segment = page.locator("[data-testid=timeline-segment]:not(.hidden)")
+		const segment = page.locator("[data-testid=timeline-card]:not(.hidden)")
 		await expect(segment).not.toHaveCount(0)
 
 		// Filter the timeline entries by searching for "Portfolio"
