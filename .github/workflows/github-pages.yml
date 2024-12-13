@@ -14,7 +14,7 @@ concurrency:
 # Triggers the deployment workflow on push to the main branch or manually
 on:
   push:
-    # branches: ["main"]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:

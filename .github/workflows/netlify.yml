@@ -8,7 +8,7 @@ concurrency:
 # Triggers the deployment workflow on push to the main branch or manually
 on:
   push:
-    # branches: ["main"]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -40,6 +40,8 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      # It's incredibly easy to find what these values correspond to, I just don't want
+      # to hardcode them in the repository itself.
       - name: Build Project
         env:
           PUBLIC_NAME: ${{ secrets.PUBLIC_NAME }}
