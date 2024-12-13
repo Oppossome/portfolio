@@ -9,7 +9,7 @@ export default defineConfig({
 	// feedback when making changes to the project.
 	webServer: {
 		reuseExistingServer: !isCI,
-		command: isCI ? "pnpm build && pnpm start" : "pnpm dev",
+		command: isCI ? "pnpm build && pnpm preview" : "pnpm dev",
 		port: isCI ? 4173 : 5173,
 	},
 

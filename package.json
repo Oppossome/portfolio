@@ -12,7 +12,7 @@
 		"lint": "prettier --check . && eslint .",
 		"lint:fix": "prettier --write . && eslint --fix .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run && npm run test:e2e",
+		"test": "pnpm run test:unit -- --run && pnpm run test:e2e",
 		"test:e2e": "playwright test",
 		"storybook": "BROWSER=none storybook dev -p 6006",
 		"build-storybook": "storybook build"
