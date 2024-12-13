@@ -19,5 +19,7 @@
 		utilizing techniques like type-level programming to achieve robust and maintainable solutions.
 	</div>
 
-	<Timeline.Card.Link class="mt-3" href={env.PUBLIC_LINKEDIN!} text="View LinkedIn" />
+	{#if env.PUBLIC_LINKEDIN}
+		<Timeline.Card.Link class="mt-3" href={env.PUBLIC_LINKEDIN} text="View LinkedIn" />
+	{/if}
 </div>
