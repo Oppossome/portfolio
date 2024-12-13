@@ -19,8 +19,14 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Svelte Check
+      - name: Install Playwright
+        run: pnpm exec playwright install
+
+      - name: Check
         run: pnpm run check
 
-      - name: ESLint, Prettier
+      - name: Test
+        run: pnpm run test
+
+      - name: Lint
         run: pnpm run lint
