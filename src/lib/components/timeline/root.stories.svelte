@@ -18,7 +18,7 @@
 		{#snippet children()}
 			<Timeline.Filters />
 
-			{#each { length: 20 }}
+			{#each Array.from({ length: 20 }) as _}
 				<Timeline.Card.Root date={[new Date(2024, 0), new Date(2024, 1)]}>
 					{#snippet icon()}
 						<Plus class="size-full" />

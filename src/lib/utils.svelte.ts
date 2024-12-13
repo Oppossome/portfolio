@@ -1,6 +1,4 @@
-import { createSubscriber } from "svelte/reactivity"
 import { on } from "svelte/events"
-import { untrack } from "svelte"
 
 // MARK: useIntersectionObserver
 
