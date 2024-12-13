@@ -15,8 +15,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name:
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: github-pages
     steps:
       - name: Wait for tests to succeed
         uses: lewagon/wait-on-check-action@v1.3.4
