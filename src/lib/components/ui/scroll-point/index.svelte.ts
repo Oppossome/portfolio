@@ -42,6 +42,7 @@ export class ScrollPoint {
 					const documentRect = documentBounds.current?.contentRect
 					if (!documentRect || !innerWidth.current || !innerHeight.current) return
 
+					// The scroll point is the center of the screen
 					goalX = innerWidth.current / 2
 					goalY = scrollY.current + innerHeight.current / 2
 
@@ -51,7 +52,7 @@ export class ScrollPoint {
 					}
 
 					// If the user is at the bottom of the page, the scroll point should be at the bottom
-					if (scrollY.current > documentRect.height - innerHeight.current - 10) {
+					if (scrollY.current + innerHeight.current > documentRect.height - 10) {
 						goalY = documentRect.height
 					}
 
