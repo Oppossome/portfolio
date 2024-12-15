@@ -1,5 +1,6 @@
+import { isMobile } from "is-mobile"
 import { untrack } from "svelte"
-import { on } from "svelte/events"
+import { scrollY, innerHeight } from "svelte/reactivity/window"
 
 import { defineContextPair, remap, useMousePoint, useResizeObserver, Tween } from "$lib/utils"
 
@@ -9,95 +10,73 @@ export class ScrollPoint {
 	static #contextPair = defineContextPair<ScrollPoint>("scroll-point")
 	static get = ScrollPoint.#contextPair.get
 
+	#documentBounds = useResizeObserver(() => document.documentElement)
 	#mousePoint = useMousePoint()
-	#rootElemCb: () => HTMLElement | undefined
 
-	#rootElemObserved = useResizeObserver(() => this.#rootElemCb())
-	#rootElemPointX = new Tween(500)
-	#rootElemPointY = new Tween(500)
+	#pointX = new Tween(500)
+	#pointY = new Tween(500)
 
-	#rootElemPointUpdate() {
-		const rootElement = this.#rootElemCb()
-		if (!rootElement) return
-
-		const mousePoint = this.#mousePoint.current
-		const rootBounds = rootElement.getBoundingClientRect()
-
-		// Don't cyclically track the #rootElemDesiredPoint update
-		untrack(() => {
-			this.#rootElemPointX.goal = mousePoint.x - rootBounds.x
-			this.#rootElemPointY.goal = mousePoint.y - rootBounds.y
-		})
-	}
-
-	get point() {
-		return {
-			x: this.#rootElemPointX.value,
-			y: this.#rootElemPointY.value,
-		}
-	}
-
-	constructor(rootElemCb: () => HTMLElement | undefined) {
-		ScrollPoint.#contextPair.set(this)
-		this.#rootElemCb = rootElemCb
-
+	#initPointUpdate() {
 		$effect(() => {
-			this.#rootElemPointUpdate()
-		})
+			const currScrollY = scrollY.current
+			if (currScrollY === undefined) return
 
-		$effect(() => {
-			return on(document, "scroll", () => {
-				this.#rootElemPointUpdate()
+			// On desktop, the scroll point is based on the mouse position
+			if (!isMobile()) {
+				const currMousePoint = this.#mousePoint.current
+				untrack(() => {
+					this.#pointX.goal = currMousePoint.x
+					this.#pointY.goal = currScrollY + currMousePoint.y
+				})
+
+				return
+			}
+
+			// On mobile, the scroll point is based on the scroll position
+			const currInnerHeight = innerHeight.current
+			const documentRect = this.#documentBounds.current?.contentRect
+			if (!currInnerHeight || !documentRect) return
+
+			untrack(() => {
+				this.#pointY.goal =
+					currScrollY +
+					remap(currScrollY, 0, documentRect.height - currInnerHeight, 0, currInnerHeight)
 			})
 		})
 	}
 
-	use(targetElemCb: () => HTMLElement | undefined) {
-		// Calculate the position of the target element relative to the root element bounds
-		const targetRelativeBounds = $derived.by(() => {
-			// Because we want to recalculate the relative bounds whenever the root element changes,
-			// grab the root element through its observation.
-			const rootElem = this.#rootElemObserved.current?.target
-			if (!rootElem) return
+	get current() {
+		return {
+			x: this.#pointX.value,
+			y: this.#pointY.value,
+		}
+	}
 
+	constructor() {
+		ScrollPoint.#contextPair.set(this)
+		this.#initPointUpdate()
+	}
+
+	use(targetElemCb: () => HTMLElement | undefined) {
+		const targetElemPoint = $derived.by(() => {
 			const targetElem = targetElemCb()
 			if (!targetElem) return
 
-			const rootBounds = rootElem.getBoundingClientRect()
-			const targetBounds = targetElem.getBoundingClientRect()
+			const documentBounds = document.documentElement.getBoundingClientRect()
+			const targetElemBounds = targetElem.getBoundingClientRect()
+
+			const relativeLeft = targetElemBounds.x - documentBounds.x
+			const relativeTop = targetElemBounds.y - documentBounds.y
 
 			return {
-				x: targetBounds.x - rootBounds.x,
-				y: targetBounds.y - rootBounds.y,
-				width: targetBounds.width,
-				height: targetBounds.height,
-			}
-		})
-
-		// Calculate the point relative to the target element's relative bounds
-		const rootPointRelativeToTarget = $derived.by(() => {
-			if (!targetRelativeBounds) return
-			return {
-				x: remap(
-					this.point.x,
-					targetRelativeBounds.x,
-					targetRelativeBounds.x + targetRelativeBounds.width,
-					0,
-					1,
-				),
-				y: remap(
-					this.point.y,
-					targetRelativeBounds.y,
-					targetRelativeBounds.y + targetRelativeBounds.height,
-					0,
-					1,
-				),
+				x: remap(this.current.x, relativeLeft, relativeLeft + targetElemBounds.width, 0, 1),
+				y: remap(this.current.y, relativeTop, relativeTop + targetElemBounds.height, 0, 1),
 			}
 		})
 
 		return {
 			get current() {
-				return rootPointRelativeToTarget
+				return targetElemPoint
 			},
 		}
 	}

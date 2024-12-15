@@ -17,7 +17,7 @@
 	<ScrollPoint.Root class="overflow-auto border border-blue-400">
 		{#snippet children(scrollPoint)}
 			{@const relativeBounds = scrollPoint.use(() => element)}
-			Position: {scrollPoint.point.x}, {scrollPoint.point.y}
+			Position: {scrollPoint.current.x}, {scrollPoint.current.y}
 
 			<div class="my-96 border border-red-600" bind:this={element}>
 				Relative Position: {relativeBounds.current?.x}, {relativeBounds.current?.y}
