@@ -1,8 +1,7 @@
 import { untrack } from "svelte"
 import { on } from "svelte/events"
-import { Tween } from "svelte/motion"
 
-import { defineContextPair, remap, useMousePoint, useResizeObserver } from "$lib/utils"
+import { defineContextPair, remap, useMousePoint, useResizeObserver, Tween } from "$lib/utils"
 
 export type Point = { x: number; y: number }
 
@@ -14,8 +13,10 @@ export class ScrollPoint {
 	#rootElemCb: () => HTMLElement | undefined
 
 	#rootElemObserved = useResizeObserver(() => this.#rootElemCb())
-	#rootElemDesiredPoint: { x: number; y: number } = $state({ x: 0, y: 0 })
-	#rootElemDesiredPointUpdate() {
+	#rootElemPointX = new Tween(500)
+	#rootElemPointY = new Tween(500)
+
+	#rootElemPointUpdate() {
 		const rootElement = this.#rootElemCb()
 		if (!rootElement) return
 
@@ -24,20 +25,15 @@ export class ScrollPoint {
 
 		// Don't cyclically track the #rootElemDesiredPoint update
 		untrack(() => {
-			this.#rootElemDesiredPoint = {
-				x: mousePoint.x - rootBounds.x,
-				y: mousePoint.y - rootBounds.y,
-			}
+			this.#rootElemPointX.goal = mousePoint.x - rootBounds.x
+			this.#rootElemPointY.goal = mousePoint.y - rootBounds.y
 		})
 	}
 
-	// The current point of the root element
-	#rootElementPointX = Tween.of(() => this.#rootElemDesiredPoint.x, { duration: 1000 })
-	#rootElementPointY = Tween.of(() => this.#rootElemDesiredPoint.y, { duration: 1000 })
 	get point() {
 		return {
-			x: this.#rootElementPointX.current,
-			y: this.#rootElementPointY.current,
+			x: this.#rootElemPointX.value,
+			y: this.#rootElemPointY.value,
 		}
 	}
 
@@ -46,12 +42,12 @@ export class ScrollPoint {
 		this.#rootElemCb = rootElemCb
 
 		$effect(() => {
-			this.#rootElemDesiredPointUpdate()
+			this.#rootElemPointUpdate()
 		})
 
 		$effect(() => {
 			return on(document, "scroll", () => {
-				this.#rootElemDesiredPointUpdate()
+				this.#rootElemPointUpdate()
 			})
 		})
 	}

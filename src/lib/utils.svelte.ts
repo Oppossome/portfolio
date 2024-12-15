@@ -123,3 +123,46 @@ export function useResizeObserver(element: () => HTMLElement | undefined): {
 		},
 	}
 }
+
+// MARK: Tween
+
+/**
+ * A custom tween class that can handle animating a value towards a constantly changing goal.
+ */
+export class Tween {
+	value: number = $state(0)
+	maxStep: number = $state(1)
+	goal: number = $state(0)
+
+	constructor(maxStep?: number) {
+		this.maxStep = maxStep ?? this.maxStep
+
+		$effect(() => {
+			let lastStep: number | undefined = performance.now()
+			const performStep = () => {
+				// If the lastStep is undefined, we've been disconnected
+				if (!lastStep) return
+
+				// So the animation runs at a consistent speed, we calculate the time since the last step
+				const now = performance.now()
+				const delta = now - lastStep
+				lastStep = now
+
+				// Calculate the difference between the current value and the goal, capped at the step size
+				const valueDiff = this.goal - this.value
+				const valueStep = Math.min(Math.abs(valueDiff), this.maxStep) * (delta / 1000)
+
+				// If the step is greater than the difference, we've reached the goal so simply set the value
+				if (valueStep > Math.abs(valueDiff)) this.value = this.goal
+				else this.value += valueStep * Math.sign(valueDiff)
+
+				// Queue up the next step of the animation
+				requestAnimationFrame(performStep)
+			}
+
+			// Start the animation
+			requestAnimationFrame(performStep)
+			return () => (lastStep = undefined)
+		})
+	}
+}
