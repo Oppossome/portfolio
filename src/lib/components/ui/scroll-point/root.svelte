@@ -11,11 +11,9 @@
 	}
 
 	let { class: classes = "", children }: Props = $props()
-
-	let element: HTMLElement | undefined = $state()
 	const scrollPoint = new ScrollPoint.State.ScrollPoint()
 </script>
 
-<div class={cn("h-full overflow-auto", classes)} bind:this={element}>
+<div class={cn("h-full overflow-auto", classes)}>
 	{@render children(scrollPoint)}
 </div>
