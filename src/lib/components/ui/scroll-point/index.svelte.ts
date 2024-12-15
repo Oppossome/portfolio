@@ -1,6 +1,6 @@
 import { isMobile } from "is-mobile"
 import { untrack } from "svelte"
-import { scrollY, innerHeight } from "svelte/reactivity/window"
+import { scrollY, innerWidth, innerHeight } from "svelte/reactivity/window"
 
 import { defineContextPair, remap, useMousePoint, useResizeObserver, Tween } from "$lib/utils"
 
@@ -10,41 +10,8 @@ export class ScrollPoint {
 	static #contextPair = defineContextPair<ScrollPoint>("scroll-point")
 	static get = ScrollPoint.#contextPair.get
 
-	#documentBounds = useResizeObserver(() => document.documentElement)
-	#mousePoint = useMousePoint()
-
 	#pointX = new Tween(500)
 	#pointY = new Tween(500)
-
-	#initPointUpdate() {
-		$effect(() => {
-			const currScrollY = scrollY.current
-			if (currScrollY === undefined) return
-
-			// On desktop, the scroll point is based on the mouse position
-			if (!isMobile()) {
-				const currMousePoint = this.#mousePoint.current
-				untrack(() => {
-					this.#pointX.goal = currMousePoint.x
-					this.#pointY.goal = currScrollY + currMousePoint.y
-				})
-
-				return
-			}
-
-			// On mobile, the scroll point is based on the scroll position
-			const currInnerHeight = innerHeight.current
-			const documentRect = this.#documentBounds.current?.contentRect
-			if (!currInnerHeight || !documentRect) return
-
-			untrack(() => {
-				this.#pointY.goal =
-					currScrollY +
-					remap(currScrollY, 0, documentRect.height - currInnerHeight, 0, currInnerHeight)
-			})
-		})
-	}
-
 	get current() {
 		return {
 			x: this.#pointX.value,
@@ -54,7 +21,59 @@ export class ScrollPoint {
 
 	constructor() {
 		ScrollPoint.#contextPair.set(this)
-		this.#initPointUpdate()
+
+		/**
+		 * MARK: Scroll Point Calculation
+		 *
+		 * The following code is a bit complex, but its purpose is to update goal values for {#pointX} and {#pointY}
+		 * - On desktop, the scroll point is based on the mouse position
+		 * - On mobile, the scroll point is based on the scroll position
+		 */
+		const documentBounds = useResizeObserver(() => document.documentElement)
+		const mousePoint = useMousePoint()
+		$effect(() => {
+			if (scrollY.current === undefined) return
+			let goalX: number
+			let goalY: number
+
+			switch (true) {
+				// On mobile, the scroll point is based on the scroll position
+				case isMobile(): {
+					const documentRect = documentBounds.current?.contentRect
+					if (!documentRect || !innerWidth.current || !innerHeight.current) return
+
+					goalX = innerWidth.current / 2
+					goalY = scrollY.current + innerHeight.current / 2
+
+					// If the user is at the top of the page, the scroll point should be at the top
+					if (scrollY.current < 10) {
+						goalY = 0
+					}
+
+					// If the user is at the bottom of the page, the scroll point should be at the bottom
+					if (scrollY.current > documentRect.height - innerHeight.current - 10) {
+						goalY = documentRect.height
+					}
+
+					break
+				}
+				// On desktop, the scroll point is based on the mouse position
+				default: {
+					const currMousePoint = mousePoint.current
+					if (!currMousePoint) return
+
+					goalX = currMousePoint.x
+					goalY = scrollY.current + currMousePoint.y
+					break
+				}
+			}
+
+			// Update the goal values without re-triggering the effect
+			untrack(() => {
+				this.#pointX.goal = goalX
+				this.#pointY.goal = goalY
+			})
+		})
 	}
 
 	use(targetElemCb: () => HTMLElement | undefined) {
