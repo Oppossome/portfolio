@@ -8,22 +8,24 @@
 
 	interface Props {
 		date: ConstructorParameters<typeof Timeline.State.TimelineEntry>[1]
+		spotlightClass?: string
 		src?: string
 		icon?: Snippet
 		children: Snippet
 	}
 
-	let { date, src, icon, children }: Props = $props()
+	let { date, spotlightClass, src, icon, children }: Props = $props()
 
 	const ctxTimeline = Timeline.State.Timeline.get()
 	const ctxTimelineEntry = new Timeline.State.TimelineEntry(ctxTimeline, date)
 </script>
 
 <Segment
-	src={ctxTimelineEntry.visible ? src : undefined}
 	data-testid="timeline-card"
 	class={cn("max-w-96", !ctxTimelineEntry.visible && "hidden")}
 	{icon}
+	src={ctxTimelineEntry.visible ? src : undefined}
+	{spotlightClass}
 >
 	{@render children()}
 </Segment>

@@ -8,6 +8,7 @@
 	interface Props {
 		class?: string
 		src?: string
+		spotlightClass?: string
 		"data-testid"?: string
 		icon?: Snippet
 		children: Snippet
@@ -16,6 +17,7 @@
 	let {
 		class: classes = "",
 		"data-testid": testid = "timeline-segment",
+		spotlightClass = "opacity-25",
 		src,
 		icon,
 		children,
@@ -29,7 +31,7 @@
 </script>
 
 {#if src && containerPoint?.current}
-	<ScrollPoint.Spotlight value={clamp(containerPoint.current.y, 0, 1)} class="opacity-25">
+	<ScrollPoint.Spotlight value={clamp(containerPoint.current.y, 0, 1)} class={spotlightClass}>
 		<img class="h-full w-full object-cover" {src} alt="" />
 	</ScrollPoint.Spotlight>
 {/if}

@@ -3,10 +3,21 @@
 
 	import { env } from "$env/dynamic/public"
 
+	import { clamp } from "$lib/utils"
 	import * as Timeline from "$lib/components/timeline"
+	import * as ScrollPoint from "$lib/components/ui/scroll-point"
+
+	let heroElement: HTMLElement | undefined = $state()
+	const heroPoint = ScrollPoint.State.ScrollPoint.get().use(() => heroElement)
 </script>
 
-<div class="flex w-full flex-col pb-16 pt-16">
+{#if heroPoint.current}
+	<ScrollPoint.Spotlight value={clamp(heroPoint.current.y, 0.5, 1)} class="opacity-10">
+		<img class="h-full w-full object-cover" src="./header-backsplash.webp" alt="" />
+	</ScrollPoint.Spotlight>
+{/if}
+
+<div class="flex w-full flex-col pb-16 pt-16" bind:this={heroElement}>
 	<h1 class="text-4xl">{env.PUBLIC_NAME}</h1>
 	<div class="text-muted-foreground">Full Stack Developer</div>
 	<span class="flex items-center gap-1 text-xs text-muted-foreground">

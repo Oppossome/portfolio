@@ -24,7 +24,11 @@
 		{/snippet}
 	</Timeline.Card.Root>
 
-	<Timeline.Card.Root date={[new Date(2022, 4), new Date(2024, 9)]} src="thread-backsplash.webp">
+	<Timeline.Card.Root
+		date={[new Date(2022, 4), new Date(2024, 9)]}
+		spotlightClass="opacity-10"
+		src="thread-backsplash.webp"
+	>
 		{#snippet icon()}
 			<div class="grid size-full place-items-center rounded-full bg-[#6120c6]">
 				<div class="flex h-2 w-3/4 justify-end rounded-full bg-[#fff]">
