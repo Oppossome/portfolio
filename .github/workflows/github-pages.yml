@@ -50,6 +50,7 @@ jobs:
       - name: Build Project
         env:
           PUBLIC_NAME: "Sera Cutler"
+          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
           BASE_PATH: "/${{ github.event.repository.name }}"
         run: pnpm run build
 
