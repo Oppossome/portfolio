@@ -46,6 +46,7 @@ jobs:
         env:
           PUBLIC_NAME: ${{ secrets.PUBLIC_NAME }}
           PUBLIC_LINKEDIN: ${{ secrets.PUBLIC_LINKEDIN }}
+          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
           BASE_PATH: "/${{ github.event.repository.name }}"
         run: pnpm run build
 
