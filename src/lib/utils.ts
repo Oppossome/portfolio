@@ -56,7 +56,7 @@ interface ContextPair<T> {
 	 *  myContextPair.set(42, true) // Replaces the context value
 	 * ```
 	 */
-	set: ((value: T, force?: false) => T) & ((value: T, force: true) => T)
+	set: (value: T, force?: boolean) => T
 	/**
 	 * Gets the context value.
 	 *

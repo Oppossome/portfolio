@@ -7,6 +7,26 @@
 <Timeline.Root>
 	<Timeline.Filters />
 
+	<Timeline.Card.Root date={new Date(2024, 12)}>
+		{#snippet icon()}
+			<Code class="size-3/4" />
+		{/snippet}
+		{#snippet children()}
+			<Timeline.Card.Header
+				title="SvelteKit-OpenAPI"
+				tags={["Personal", "Library", "Svelte", "JavaScript", "TypeScript"]}
+			/>
+			<Timeline.Components.EntryText
+				class="py-1 text-xs leading-4 text-muted-foreground"
+				text="A library for SvelteKit that simplifies the creation of APIs by allowing seamless endpoint definition, validation, and documentation."
+			/>
+			<Timeline.Card.Link
+				href="https://github.com/Oppossome/sveltekit-openapi/tree/main/packages/sveltekit-openapi"
+				text="View GitHub"
+			/>
+		{/snippet}
+	</Timeline.Card.Root>
+
 	<Timeline.Card.Root date={[new Date(2024, 9), new Date(2024, 10)]}>
 		{#snippet icon()}
 			<Code class="size-3/4" />
@@ -14,7 +34,7 @@
 		{#snippet children()}
 			<Timeline.Card.Header
 				title="Portfolio"
-				tags={["Personal", "Svelte", "JavaScript", "TypeScript"]}
+				tags={["Personal", "App", "Svelte", "JavaScript", "TypeScript"]}
 			/>
 			<Timeline.Components.EntryText
 				class="py-1 text-xs leading-4 text-muted-foreground"
@@ -52,7 +72,7 @@
 		{#snippet children()}
 			<Timeline.Card.Header
 				title="Filepouch"
-				tags={["Personal", "React", "JavaScript", "TypeScript"]}
+				tags={["Personal", "App", "React", "JavaScript", "TypeScript"]}
 			/>
 			<Timeline.Components.EntryText
 				class="py-1 text-xs leading-4 text-muted-foreground"
@@ -113,7 +133,7 @@
 			<Code class="size-3/4" />
 		{/snippet}
 		{#snippet children()}
-			<Timeline.Card.Header title="LUtils" tags={["Personal", "Lua"]} />
+			<Timeline.Card.Header title="LUtils" tags={["Personal", "Library", "Lua"]} />
 			<Timeline.Components.EntryText
 				class="py-1 text-xs leading-4 text-muted-foreground"
 				text="A powerful development utility for Garry's Mod, written in Lua. It provides a wide range of features, such as single-line multi-entity targeting, syntax highlighting, and more."

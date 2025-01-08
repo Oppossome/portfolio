@@ -9,6 +9,9 @@ export const entryTags = [
 	// Types
 	"Professional",
 	"Personal",
+	// Categories
+	"App",
+	"Library",
 	// Frameworks
 	"React",
 	"Svelte",
