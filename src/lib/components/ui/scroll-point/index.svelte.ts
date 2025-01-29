@@ -1,4 +1,3 @@
-import { isMobile } from "is-mobile"
 import { untrack } from "svelte"
 import { scrollY, innerWidth, innerHeight } from "svelte/reactivity/window"
 
@@ -37,8 +36,17 @@ export class ScrollPoint {
 			let goalY: number
 
 			switch (true) {
-				// On mobile, the scroll point is based on the scroll position
-				case isMobile(): {
+				// For debugging purposes, the scroll point is based on the mouse position
+				case import.meta.env.MODE === "development": {
+					const currMousePoint = mousePoint.current
+					if (!currMousePoint) return
+
+					goalX = currMousePoint.x
+					goalY = scrollY.current + currMousePoint.y
+					break
+				}
+				// Otherwise, the scroll point is based on the scroll position
+				default: {
 					const documentRect = documentBounds.current?.contentRect
 					if (!documentRect || !innerWidth.current || !innerHeight.current) return
 
@@ -56,15 +64,6 @@ export class ScrollPoint {
 						goalY = documentRect.height
 					}
 
-					break
-				}
-				// On desktop, the scroll point is based on the mouse position
-				default: {
-					const currMousePoint = mousePoint.current
-					if (!currMousePoint) return
-
-					goalX = currMousePoint.x
-					goalY = scrollY.current + currMousePoint.y
 					break
 				}
 			}
