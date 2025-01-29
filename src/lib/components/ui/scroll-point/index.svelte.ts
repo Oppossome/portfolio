@@ -1,4 +1,3 @@
-import { isMobile } from "is-mobile"
 import { untrack } from "svelte"
 import { scrollY, innerWidth, innerHeight } from "svelte/reactivity/window"
 
