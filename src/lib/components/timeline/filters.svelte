@@ -36,7 +36,7 @@
 					aria-expanded={selectTagOpen}
 				>
 					<PlusCircle class="h-4 w-4" />
-					Tag
+					Filter
 
 					{#if filters.tags.size !== 0}
 						<Separator orientation="vertical" />

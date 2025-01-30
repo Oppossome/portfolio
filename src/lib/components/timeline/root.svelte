@@ -5,17 +5,18 @@
 	import * as Timeline from "./index"
 
 	interface Props {
+		class?: string
 		filters?: Partial<Timeline.State.TimelineFilters>
 		children: Snippet
 	}
 
-	let { filters, children }: Props = $props()
+	let { class: classes = "", filters, children }: Props = $props()
 
 	// Register the timeline context.
 	const ctxTimeline = new Timeline.State.Timeline(filters)
 </script>
 
-<div class="c_timeline-root flex flex-col">
+<div class="c_timeline-root flex flex-col {classes}">
 	{@render children()}
 
 	{#if ctxTimeline.entriesHidden}
