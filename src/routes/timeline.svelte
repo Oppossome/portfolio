@@ -2,9 +2,15 @@
 	import { Code, Award } from "lucide-svelte"
 
 	import * as Timeline from "$lib/components/timeline"
+
+	interface Props {
+		class?: string
+	}
+
+	let { class: classes = "" }: Props = $props()
 </script>
 
-<Timeline.Root>
+<Timeline.Root class={classes}>
 	<Timeline.Filters />
 
 	<Timeline.Card.Root date={new Date(2024, 12)}>
